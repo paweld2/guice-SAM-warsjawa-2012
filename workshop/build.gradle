@@ -1,0 +1,14 @@
+repositories {
+	    ivy {
+        name = 'warsjawaRepo'
+	    ivyPattern "http://localhost/warsjawa/[organisation]/[module]/ivys/ivy-[revision].xml"
+        artifactPattern "http://localhost/warsjawa/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"
+    }
+}
+subprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'java'
+	repositories {
+		add rootProject.repositories.warsjawaRepo
+	}
+}
