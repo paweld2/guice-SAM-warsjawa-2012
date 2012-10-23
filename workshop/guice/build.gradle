@@ -1,3 +1,5 @@
+apply plugin: 'jetty'
+apply plugin: 'war'
 
 dependencies {
     compile (

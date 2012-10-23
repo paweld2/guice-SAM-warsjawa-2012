@@ -1,14 +1,26 @@
 repositories {
+
+	    ivy {
+        name = 'samRepo'
+	    ivyPattern "../localRepo/[organisation]/[module]/ivys/ivy-[revision].xml"
+        artifactPattern "../localRepo/[organisation]/[module]/jars/[artifact]-[revision](-[classifier]).[ext]"
+    }
+
 	    ivy {
         name = 'warsjawaRepo'
-	    ivyPattern "http://localhost/warsjawa/[organisation]/[module]/ivys/ivy-[revision].xml"
-        artifactPattern "http://localhost/warsjawa/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"
+	    ivyPattern "http://localRepo/warsjawa/[organisation]/[module]/ivys/ivy-[revision].xml"
+        artifactPattern "http://localRepo/warsjawa/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"
     }
 }
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
 	repositories {
+		mavenCentral()
+                maven {
+                        url "http://repository-netty.forge.cloudbees.com/snapshot/"
+                }
 		add rootProject.repositories.warsjawaRepo
+		add rootProject.repositories.samRepo
 	}
 }

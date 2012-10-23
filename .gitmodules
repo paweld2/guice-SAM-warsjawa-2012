@@ -1,0 +1,3 @@
+[submodule "Service-Architecture-Model"]
+	path = Service-Architecture-Model
+	url = git://github.com/paweld2/Service-Architecture-Model.git

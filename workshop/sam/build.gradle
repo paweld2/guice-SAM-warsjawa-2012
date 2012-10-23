@@ -2,6 +2,8 @@
 dependencies {
     compile (
         [group: 'com.google.inject', name: 'guice', version: '3.0'],
+        [group: 'javax.jmdns', name: 'jmdns', version: '3.4.1'],
+        [group: 'eu.pmsoft', name: 'samExecution', version: '0.3.2.alpha'],
     )
     testCompile group: 'org.testng', name: 'testng', version: '6.1.1'
 }
