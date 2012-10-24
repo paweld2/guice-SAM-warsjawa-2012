@@ -27,6 +27,8 @@ public class ModelModule extends AbstractModule {
 		
 		bind(ModelContract.class).to(ModelWarsjava.class).in(Singleton.class);
 		
+		bind(LoggingContract.class).annotatedWith(Names.named("modelLogger")).toInstance(ModelWarsjava.modelInternalLogger);
+		
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
