@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
+import warsjava.guice.implementations.ModelWarsjava;
 import warsjava.guice.modules.ModelModule;
 
 import com.google.inject.Inject;
@@ -69,5 +70,16 @@ public class TestInjectionConfiguration {
 		assertTrue(someArticle.validate());
 		assertNotNull(someComment);
 		assertTrue(someComment.validate());
+	}
+	
+	@Inject @Named("modelLogger")
+	public LoggingContract modelLogger;
+	
+	@Test
+	public void testModelLoggerBind() {
+		assertNotNull(modelLogger);
+		assertEquals(modelLogger.getLevel(), 10);
+		assertEquals(modelLogger,ModelWarsjava.modelInternalLogger);
+		modelLogger.log("test pass");
 	}
 }
