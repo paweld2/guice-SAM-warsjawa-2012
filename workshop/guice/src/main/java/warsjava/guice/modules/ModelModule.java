@@ -21,6 +21,7 @@ public class ModelModule extends AbstractModule {
 		bind(LoggingContract.class).annotatedWith(Names.named("level2")).to(LoggerLevel2.class);
 		
 		bind(ModelContract.class).to(ModelWarsjava.class).in(Singleton.class);
-	}
-
+		
+	}	
+	
 }

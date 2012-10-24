@@ -2,10 +2,13 @@ package warsjava.guice.contract;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
+import warsjava.guice.domain.Article;
+import warsjava.guice.domain.Comment;
 import warsjava.guice.modules.ModelModule;
 
 import com.google.inject.Inject;
@@ -23,10 +26,12 @@ public class TestInjectionConfiguration {
 		assertEquals(simpleLogger.getLevel(), 0);
 		simpleLogger.log("test pass");
 	}
-	
-	@Inject @Named("level1")
+
+	@Inject
+	@Named("level1")
 	public LoggingContract namedLevel1;
-	@Inject @Named("level2")
+	@Inject
+	@Named("level2")
 	public LoggingContract namedLevel2;
 
 	@Test(groups = "test1")
@@ -41,15 +46,28 @@ public class TestInjectionConfiguration {
 
 	@Inject
 	public ModelContract modelRef1;
-	
+
 	@Inject
 	public ModelContract modelRef2;
-	
+
 	@Test
-	public void testModelIsSingleton(){
+	public void testModelIsSingleton() {
 		assertNotNull(modelRef1);
 		assertNotNull(modelRef2);
 		assertEquals(modelRef1.getInstanceNr(), modelRef2.getInstanceNr());
 	}
+
+	@Inject
+	public Article someArticle;
 	
+	@Inject
+	public Comment someComment;
+
+	@Test
+	public void testDomainObjectsInjection() {
+		assertNotNull(someArticle);
+		assertTrue(someArticle.validate());
+		assertNotNull(someComment);
+		assertTrue(someComment.validate());
+	}
 }
