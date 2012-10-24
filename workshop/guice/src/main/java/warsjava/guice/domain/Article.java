@@ -1,5 +1,7 @@
 package warsjava.guice.domain;
 
+import com.google.inject.Inject;
+
 
 public class Article {
 
@@ -16,6 +18,7 @@ public class Article {
 		return true;
 	}
 
+	@Inject
 	public Article(Integer id) {
 		super();
 		this.id = id;

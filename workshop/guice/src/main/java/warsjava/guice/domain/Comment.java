@@ -1,10 +1,12 @@
 package warsjava.guice.domain;
 
+import com.google.inject.Inject;
 
 public class Comment {
 
 	private final Integer id;
 
+	@Inject
 	public Comment(Integer id) {
 		super();
 		this.id = id;
