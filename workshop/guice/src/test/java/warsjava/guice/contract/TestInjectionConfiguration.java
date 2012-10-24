@@ -38,6 +38,18 @@ public class TestInjectionConfiguration {
 		namedLevel1.log("test pass");
 		namedLevel2.log("test pass");
 	}
+
+	@Inject
+	public ModelContract modelRef1;
 	
+	@Inject
+	public ModelContract modelRef2;
+	
+	@Test
+	public void testModelIsSingleton(){
+		assertNotNull(modelRef1);
+		assertNotNull(modelRef2);
+		assertEquals(modelRef1.getInstanceNr(), modelRef2.getInstanceNr());
+	}
 	
 }

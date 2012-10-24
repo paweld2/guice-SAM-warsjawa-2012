@@ -13,7 +13,7 @@ public class ModelModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(LoggingContract.class).to(SimpleLogger.class);
-		
+
 		bind(LoggingContract.class).annotatedWith(Names.named("level1")).to(LoggerLevel1.class);
 		bind(LoggingContract.class).annotatedWith(Names.named("level2")).to(LoggerLevel2.class);
 	}
