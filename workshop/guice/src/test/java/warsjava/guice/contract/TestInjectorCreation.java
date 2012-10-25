@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import warsjava.guice.domain.Task;
 import warsjava.guice.domain.TaskObserver;
 import warsjava.guice.modules.ModelModule;
+import warsjava.guice.modules.TaskModelModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -29,7 +30,7 @@ public class TestInjectorCreation {
 	}
 	
 	private Injector createExtendedModelInjector(){
-		return null;
+		return Guice.createInjector(new ModelModule(),new TaskModelModule());
 	}
 	
 	@Test
@@ -45,12 +46,10 @@ public class TestInjectorCreation {
 	}
 
 	private TaskObserver createObserver(Injector injector) {
-		// TODO Auto-generated method stub
-		return null;
+		return injector.getInstance(TaskObserver.class);
 	}
 
 	private Task createTask(Injector injector) {
-		// TODO Auto-generated method stub
-		return null;
+		return injector.getInstance(Task.class);
 	}
 }
