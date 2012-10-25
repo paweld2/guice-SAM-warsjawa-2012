@@ -5,6 +5,8 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Test;
 
+import warsjava.guice.domain.Task;
+import warsjava.guice.domain.TaskObserver;
 import warsjava.guice.modules.ModelModule;
 
 import com.google.inject.Guice;
@@ -24,5 +26,31 @@ public class TestInjectorCreation {
 		assertNotNull(injector);
 		assertNotNull(injector.getExistingBinding(Key.get(LoggingContract.class)));
 		assertTrue(injector.getExistingBinding(Key.get(LoggingContract.class, Names.named("notExistingBinding"))) == null);
+	}
+	
+	private Injector createExtendedModelInjector(){
+		return null;
+	}
+	
+	@Test
+	public void testExtendedModelInjectorCreation(){
+		// Don't change the definition of module ModelModule
+		Injector injector = createExtendedModelInjector();
+		assertNotNull(injector);
+		assertNotNull(injector.getExistingBinding(Key.get(LoggingContract.class)));
+		assertNotNull(injector.getExistingBinding(Key.get(TaskObserver.class)));
+		Task task = createTask(injector);
+		TaskObserver observer = createObserver(injector);
+		assertTrue(observer.observeTask(task));
+	}
+
+	private TaskObserver createObserver(Injector injector) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Task createTask(Injector injector) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
