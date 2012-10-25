@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
+import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
 import warsjava.guice.implementations.ModelWarsjava;
@@ -81,5 +82,17 @@ public class TestInjectionConfiguration {
 		assertEquals(modelLogger.getLevel(), 10);
 		assertEquals(modelLogger,ModelWarsjava.modelInternalLogger);
 		modelLogger.log("test pass");
+	}
+	
+	@Inject
+	public AdminUser adminRef1;
+	@Inject
+	public AdminUser adminRef2;
+	
+	@Test
+	public void testAdminUserIsSingleton() {
+		assertNotNull(adminRef1);
+		assertNotNull(adminRef2);
+		assertEquals(adminRef1,adminRef2);
 	}
 }
