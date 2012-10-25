@@ -2,11 +2,13 @@ package warsjava.guice.modules;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import warsjava.guice.contract.ExternalLibApi;
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
 import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
+import warsjava.guice.implementations.ExternalLibApiImplementation;
 import warsjava.guice.implementations.LoggerLevel1;
 import warsjava.guice.implementations.LoggerLevel2;
 import warsjava.guice.implementations.ModelWarsjava;
@@ -31,6 +33,12 @@ public class ModelModule extends AbstractModule {
 		bind(LoggingContract.class).annotatedWith(Names.named("modelLogger")).toInstance(ModelWarsjava.modelInternalLogger);
 		
 		bind(AdminUser.class).in(Singleton.class);
+		
+		try {
+			bind(ExternalLibApi.class).toConstructor(ExternalLibApiImplementation.class.getConstructor());
+		} catch (Exception e) {
+			addError(e);
+		}
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
