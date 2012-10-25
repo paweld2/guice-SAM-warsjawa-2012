@@ -12,5 +12,6 @@ dependencies {
         [group: 'com.google.inject.extensions', name: 'guice-throwingproviders', version: '3.0'],
         [group: 'com.google.inject.extensions', name: 'guice-spring', version: '3.0'],
     )
+    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
     testCompile group: 'org.testng', name: 'testng', version: '6.1.1'
 }
