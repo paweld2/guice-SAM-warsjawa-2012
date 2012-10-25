@@ -5,6 +5,9 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Test;
 
+import warsjava.guice.modules.ModelModule;
+
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
@@ -12,7 +15,7 @@ import com.google.inject.name.Names;
 public class TestInjectorCreation {
 
 	private Injector createModelInjector() {
-		return null;
+		return Guice.createInjector(new ModelModule());
 	}
 	
 	@Test
