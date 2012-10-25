@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
+import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
 import warsjava.guice.implementations.LoggerLevel1;
@@ -29,6 +30,7 @@ public class ModelModule extends AbstractModule {
 		
 		bind(LoggingContract.class).annotatedWith(Names.named("modelLogger")).toInstance(ModelWarsjava.modelInternalLogger);
 		
+		bind(AdminUser.class).in(Singleton.class);
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
