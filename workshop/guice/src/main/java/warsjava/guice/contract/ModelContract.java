@@ -11,4 +11,6 @@ public interface ModelContract {
 	public boolean forbiddenMethod();
 	
 	public String getEnvironmentName();
+	
+	public int getNrOfPluginInstalled();
 }

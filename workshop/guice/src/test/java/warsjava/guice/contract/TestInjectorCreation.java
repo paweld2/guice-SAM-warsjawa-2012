@@ -4,6 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import warsjava.guice.domain.Task;
@@ -77,5 +80,53 @@ public class TestInjectorCreation {
 		ModelContract model = injector.getInstance(ModelContract.class);
 		assertEquals("test", model.getEnvironmentName());
 		assertTrue("test".compareTo(model.getEnvironmentName())==0);
+	}
+	
+	@Test
+	public void testPlugInInstalation(){
+//		Install this plugins on the model
+		List<ModelPlugin> plugins1 = pluginsToInstall("provider1");
+		List<ModelPlugin> plugins2 = pluginsToInstall("provider2");
+		
+		ModelEnvironment testEnvironment = new ModelEnvironment("test");
+		Injector injector = Guice.createInjector(new ModelModule(),new TaskModelModule(), new EnvironmentModule(testEnvironment));
+		assertNotNull(injector);
+		ModelContract model = injector.getInstance(ModelContract.class);
+		assertEquals(10, model.getNrOfPluginInstalled());
+	}
+	
+	private List<ModelPlugin> pluginsToInstall(final String provider){
+		List<ModelPlugin> list = new LinkedList<ModelPlugin>();
+		list.add(new ModelPlugin() {
+			@Override
+			public String getName() {
+				return provider+"-plugin1";
+			}
+		});
+		list.add(new ModelPlugin() {
+			@Override
+			public String getName() {
+				return provider+"-plugin2";
+			}
+		});
+		list.add(new ModelPlugin() {
+			@Override
+			public String getName() {
+				return provider+"-plugin3";
+			}
+		});
+		list.add(new ModelPlugin() {
+			@Override
+			public String getName() {
+				return provider+"-plugin4";
+			}
+		});
+		list.add(new ModelPlugin() {
+			@Override
+			public String getName() {
+				return provider+"-plugin5";
+			}
+		});
+		return list;
 	}
 }

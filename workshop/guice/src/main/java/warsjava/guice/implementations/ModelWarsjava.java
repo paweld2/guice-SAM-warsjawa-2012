@@ -1,11 +1,14 @@
 package warsjava.guice.implementations;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import warsjava.guice.aop.ForbiddenMethod;
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
 import warsjava.guice.contract.ModelEnvironment;
+import warsjava.guice.contract.ModelPlugin;
 import warsjava.guice.domain.Task;
 
 import com.google.inject.Inject;
@@ -22,6 +25,13 @@ public class ModelWarsjava implements ModelContract {
 		super();
 		this.environment = environment;
 		this.taskProvider = taskProvider;
+	}
+
+	Map<String, ModelPlugin> installedPlugins = new HashMap<String, ModelPlugin>();
+
+	@Override
+	public int getNrOfPluginInstalled() {
+		return installedPlugins.size();
 	}
 
 	public static LoggingContract modelInternalLogger = new LoggingContract() {
