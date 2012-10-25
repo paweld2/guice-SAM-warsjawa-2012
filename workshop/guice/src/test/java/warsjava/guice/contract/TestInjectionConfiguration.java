@@ -132,4 +132,15 @@ public class TestInjectionConfiguration {
 		assertTrue(task1.getTaskNr().compareTo(task2.getTaskNr()) != 0);
 
 	}
+	
+	@Inject
+//	@MyWorkshopCustomAnnotation
+	public LoggingContract loggerWithCustomAnnotation;
+	
+	@Test
+	public void testCreationOfCustomBindAnnotation(){
+		assertNotNull(loggerWithCustomAnnotation);
+		assertEquals(100, loggerWithCustomAnnotation.getLevel());
+		loggerWithCustomAnnotation.log("Custom annotation works");
+	}
 }
