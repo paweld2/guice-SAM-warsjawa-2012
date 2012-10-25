@@ -145,7 +145,7 @@ public class TestInjectorCreation {
 		assertNotNull(injector);
 		// Instance is created when injector is already build. Inject the members
 		ExternalSourceToBeInjected injectMePlease = new ExternalSourceToBeInjected();
-		
+		injector.injectMembers(injectMePlease);
 		assertTrue(injectMePlease.testModelInjection());
 		
 	}
