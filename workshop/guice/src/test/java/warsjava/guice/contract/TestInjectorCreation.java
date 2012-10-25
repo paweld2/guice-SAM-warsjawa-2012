@@ -52,4 +52,16 @@ public class TestInjectorCreation {
 	private Task createTask(Injector injector) {
 		return injector.getInstance(Task.class);
 	}
+
+	@Test
+	public void testExtendedModelInjectorDontProvideInternalApi(){
+		Injector injector = createExtendedModelInjector();
+		assertNotNull(injector);
+		assertNotNull(injector.getExistingBinding(Key.get(LoggingContract.class)));
+		assertNotNull(injector.getExistingBinding(Key.get(TaskObserver.class)));
+		assertTrue(injector.getExistingBinding(Key.get(InternalModelAPI.class))==null);
+		Task task = createTask(injector);
+		TaskObserver observer = createObserver(injector);
+		assertTrue(observer.checkTask(task));
+	}
 }
