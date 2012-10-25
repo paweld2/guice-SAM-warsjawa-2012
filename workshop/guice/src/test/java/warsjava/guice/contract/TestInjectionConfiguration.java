@@ -11,6 +11,8 @@ import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
 import warsjava.guice.implementations.ModelWarsjava;
+import warsjava.guice.jit.CardProcessor;
+import warsjava.guice.jit.CardValidator;
 import warsjava.guice.modules.ModelModule;
 
 import com.google.inject.Inject;
@@ -104,4 +106,17 @@ public class TestInjectionConfiguration {
 		assertTrue(externalApi.test());
 	}
 	
+	@Inject
+	public CardProcessor cardProcessor;
+	@Inject
+	public CardValidator cardValidator;
+	
+	@Test
+	public void testJustInTimeBinding() {
+		// For this exercise don't change the module definition
+		assertNotNull(cardProcessor);
+		assertNotNull(cardValidator);
+		assertTrue(cardValidator.validate());
+		assertTrue(cardProcessor.processCard());
+	}
 }
