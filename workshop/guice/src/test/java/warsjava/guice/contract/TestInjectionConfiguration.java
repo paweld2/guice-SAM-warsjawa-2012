@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
+import warsjava.guice.domain.Task;
 import warsjava.guice.implementations.ModelWarsjava;
 import warsjava.guice.jit.CardProcessor;
 import warsjava.guice.jit.CardValidator;
@@ -63,7 +64,7 @@ public class TestInjectionConfiguration {
 
 	@Inject
 	public Article someArticle;
-	
+
 	@Inject
 	public Comment someComment;
 
@@ -74,43 +75,45 @@ public class TestInjectionConfiguration {
 		assertNotNull(someComment);
 		assertTrue(someComment.validate());
 	}
-	
-	@Inject @Named("modelLogger")
+
+	@Inject
+	@Named("modelLogger")
 	public LoggingContract modelLogger;
-	
+
 	@Test
 	public void testModelLoggerBind() {
 		assertNotNull(modelLogger);
 		assertEquals(modelLogger.getLevel(), 10);
-		assertEquals(modelLogger,ModelWarsjava.modelInternalLogger);
+		assertEquals(modelLogger, ModelWarsjava.modelInternalLogger);
 		modelLogger.log("test pass");
 	}
-	
+
 	@Inject
 	public AdminUser adminRef1;
 	@Inject
 	public AdminUser adminRef2;
-	
+
 	@Test
 	public void testAdminUserIsSingleton() {
 		assertNotNull(adminRef1);
 		assertNotNull(adminRef2);
-		assertEquals(adminRef1,adminRef2);
+		assertEquals(adminRef1, adminRef2);
 	}
-	
+
 	@Inject
 	public ExternalLibApi externalApi;
+
 	@Test
 	public void testExternalLibBinding() {
 		assertNotNull(externalApi);
 		assertTrue(externalApi.test());
 	}
-	
+
 	@Inject
 	public CardProcessor cardProcessor;
 	@Inject
 	public CardValidator cardValidator;
-	
+
 	@Test
 	public void testJustInTimeBinding() {
 		// For this exercise don't change the module definition
@@ -118,5 +121,15 @@ public class TestInjectionConfiguration {
 		assertNotNull(cardValidator);
 		assertTrue(cardValidator.validate());
 		assertTrue(cardProcessor.processCard());
+	}
+
+	@Test
+	public void testTaskCreationOnModel() {
+		Task task1 = modelRef1.getNewTaskInstance();
+		Task task2 = modelRef1.getNewTaskInstance();
+		assertNotNull(task1);
+		assertNotNull(task2);
+		assertTrue(task1.getTaskNr().compareTo(task2.getTaskNr()) != 0);
+
 	}
 }

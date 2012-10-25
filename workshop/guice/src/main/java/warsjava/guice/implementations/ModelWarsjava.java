@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
+import warsjava.guice.domain.Task;
 
 public class ModelWarsjava implements ModelContract {
 	
@@ -26,6 +27,12 @@ public class ModelWarsjava implements ModelContract {
 	@Override
 	public int getInstanceNr() {
 		return instanceNr;
+	}
+
+	@Override
+	public Task getNewTaskInstance() {
+		// TODO implement method to get a new instance of task on each call
+		return null;
 	}
 
 }
