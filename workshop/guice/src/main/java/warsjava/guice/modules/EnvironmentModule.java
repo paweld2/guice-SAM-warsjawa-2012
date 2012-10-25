@@ -14,7 +14,6 @@ public class EnvironmentModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		binder().requireExplicitBindings();
 		bind(ModelEnvironment.class).toInstance(environment);
 	}
 
