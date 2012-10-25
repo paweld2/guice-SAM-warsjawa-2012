@@ -13,12 +13,15 @@ import warsjava.guice.domain.Task;
 import warsjava.guice.domain.TaskObserver;
 import warsjava.guice.modules.EnvironmentModule;
 import warsjava.guice.modules.ModelModule;
+import warsjava.guice.modules.PlugInInstalationModule;
 import warsjava.guice.modules.TaskModelModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.name.Names;
+import com.google.inject.util.Modules;
 
 public class TestInjectorCreation {
 
@@ -87,9 +90,12 @@ public class TestInjectorCreation {
 //		Install this plugins on the model
 		List<ModelPlugin> plugins1 = pluginsToInstall("provider1");
 		List<ModelPlugin> plugins2 = pluginsToInstall("provider2");
-		
+
 		ModelEnvironment testEnvironment = new ModelEnvironment("test");
-		Injector injector = Guice.createInjector(new ModelModule(),new TaskModelModule(), new EnvironmentModule(testEnvironment));
+		Module allModel = Modules.combine(new ModelModule(),new TaskModelModule(), new EnvironmentModule(testEnvironment));
+		Module pluginsModules = Modules.combine(new PlugInInstalationModule(plugins1),new PlugInInstalationModule(plugins2));
+		
+		Injector injector = Guice.createInjector(Modules.combine(allModel,pluginsModules));
 		assertNotNull(injector);
 		ModelContract model = injector.getInstance(ModelContract.class);
 		assertEquals(10, model.getNrOfPluginInstalled());

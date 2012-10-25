@@ -1,6 +1,7 @@
 package warsjava.guice.implementations;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,8 +12,11 @@ import warsjava.guice.contract.ModelEnvironment;
 import warsjava.guice.contract.ModelPlugin;
 import warsjava.guice.domain.Task;
 
+import com.google.inject.Binding;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 
 public class ModelWarsjava implements ModelContract {
 
@@ -21,10 +25,15 @@ public class ModelWarsjava implements ModelContract {
 	private final Provider<Task> taskProvider;
 
 	@Inject
-	public ModelWarsjava(ModelEnvironment environment, Provider<Task> taskProvider) {
+	public ModelWarsjava(ModelEnvironment environment, Provider<Task> taskProvider, Injector injector) {
 		super();
 		this.environment = environment;
 		this.taskProvider = taskProvider;
+		List<Binding<ModelPlugin>> toInstall = injector.findBindingsByType(TypeLiteral.get(ModelPlugin.class));
+		for (Binding<ModelPlugin> binding : toInstall) {
+			ModelPlugin plugin = binding.getProvider().get();
+			installedPlugins.put(plugin.getName(), plugin);
+		}
 	}
 
 	Map<String, ModelPlugin> installedPlugins = new HashMap<String, ModelPlugin>();
