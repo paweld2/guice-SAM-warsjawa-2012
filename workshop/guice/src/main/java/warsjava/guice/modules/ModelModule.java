@@ -2,6 +2,8 @@ package warsjava.guice.modules;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import warsjava.guice.aop.ForbiddenMethod;
+import warsjava.guice.aop.ForbiddenMethodInterceptor;
 import warsjava.guice.contract.ExternalLibApi;
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
@@ -19,6 +21,7 @@ import warsjava.guice.implementations.TaskProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 
 public class ModelModule extends AbstractModule {
@@ -56,6 +59,8 @@ public class ModelModule extends AbstractModule {
 				return 100;
 			}
 		});
+		
+		bindInterceptor(Matchers.any(), Matchers.annotatedWith(ForbiddenMethod.class), new ForbiddenMethodInterceptor());
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
