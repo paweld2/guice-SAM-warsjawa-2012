@@ -2,6 +2,9 @@ package warsjava.guice.servlet.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 import warsjava.guice.contract.ModelContract;
 import warsjava.guice.domain.User;
 
@@ -9,20 +12,25 @@ public class ModelServiceImplementation implements ModelService {
 
 	private final ModelContract model;
 
-	public ModelServiceImplementation(ModelContract model) {
+	@Inject
+	public ModelServiceImplementation(ModelContract model,Provider<HttpServletRequest> requestProvider,Provider<User> userProvider) {
 		this.model = model;
+		this.requestProvider = requestProvider;
+		this.userProvider = userProvider;
 	}
+	
+	private final Provider<HttpServletRequest> requestProvider;
+	
+	private final Provider<User> userProvider;
 
 	@Override
 	public boolean checkRequestStatus() {
-		// TODO inject model
 		if( model == null) throw new RuntimeException("model not injected");
-		// TODO get access to the request
-		HttpServletRequest request = null;
+		HttpServletRequest request = requestProvider.get();
 		if( request == null) throw new RuntimeException("request not injected");
-		// TODO get a different user in each servlet session
-		User currentUser = null;
+		User currentUser = userProvider.get();
 		if( currentUser == null) throw new RuntimeException("user not injected");
+		System.out.println(currentUser.getUserName());
 		return false;
 	}
 

@@ -17,6 +17,8 @@ import warsjava.guice.implementations.LoggerLevel2;
 import warsjava.guice.implementations.ModelWarsjava;
 import warsjava.guice.implementations.SimpleLogger;
 import warsjava.guice.implementations.TaskProvider;
+import warsjava.guice.servlet.service.ModelService;
+import warsjava.guice.servlet.service.ModelServiceImplementation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -61,6 +63,8 @@ public class ModelModule extends AbstractModule {
 		});
 		
 		bindInterceptor(Matchers.any(), Matchers.annotatedWith(ForbiddenMethod.class), new ForbiddenMethodInterceptor());
+		
+		bind(ModelService.class).to(ModelServiceImplementation.class).asEagerSingleton();
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
