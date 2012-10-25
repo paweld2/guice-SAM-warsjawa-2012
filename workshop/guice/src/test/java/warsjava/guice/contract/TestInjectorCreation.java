@@ -1,5 +1,6 @@
 package warsjava.guice.contract;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -7,6 +8,7 @@ import org.testng.annotations.Test;
 
 import warsjava.guice.domain.Task;
 import warsjava.guice.domain.TaskObserver;
+import warsjava.guice.modules.EnvironmentModule;
 import warsjava.guice.modules.ModelModule;
 import warsjava.guice.modules.TaskModelModule;
 
@@ -63,5 +65,17 @@ public class TestInjectorCreation {
 		Task task = createTask(injector);
 		TaskObserver observer = createObserver(injector);
 		assertTrue(observer.checkTask(task));
+	}
+	
+	@Test
+	public void testExtendedModelInjectorEnvironment(){
+//		Don't allow the use of the default constructor of ModelEnvironment
+//		Bind this instance as a singleton to ModelEnvironment
+//		ModelEnvironment testEnvironment = new ModelEnvironment("test");
+		Injector injector = Guice.createInjector(new ModelModule(),new TaskModelModule(), new EnvironmentModule());
+		assertNotNull(injector);
+		ModelContract model = injector.getInstance(ModelContract.class);
+		assertEquals("test", model.getEnvironmentName());
+		assertTrue("test".compareTo(model.getEnvironmentName())==0);
 	}
 }

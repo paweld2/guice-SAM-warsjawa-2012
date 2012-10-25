@@ -9,4 +9,6 @@ public interface ModelContract {
 	public Task getNewTaskInstance();
 	
 	public boolean forbiddenMethod();
+	
+	public String getEnvironmentName();
 }
