@@ -95,4 +95,13 @@ public class TestInjectionConfiguration {
 		assertNotNull(adminRef2);
 		assertEquals(adminRef1,adminRef2);
 	}
+	
+	@Inject
+	public ExternalLibApi externalApi;
+	@Test
+	public void testExternalLibBinding() {
+		assertNotNull(externalApi);
+		assertTrue(externalApi.test());
+	}
+	
 }
