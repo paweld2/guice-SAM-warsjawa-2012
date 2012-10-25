@@ -71,8 +71,8 @@ public class TestInjectorCreation {
 	public void testExtendedModelInjectorEnvironment(){
 //		Don't allow the use of the default constructor of ModelEnvironment
 //		Bind this instance as a singleton to ModelEnvironment
-//		ModelEnvironment testEnvironment = new ModelEnvironment("test");
-		Injector injector = Guice.createInjector(new ModelModule(),new TaskModelModule(), new EnvironmentModule());
+		ModelEnvironment testEnvironment = new ModelEnvironment("test");
+		Injector injector = Guice.createInjector(new ModelModule(),new TaskModelModule(), new EnvironmentModule(testEnvironment));
 		assertNotNull(injector);
 		ModelContract model = injector.getInstance(ModelContract.class);
 		assertEquals("test", model.getEnvironmentName());
