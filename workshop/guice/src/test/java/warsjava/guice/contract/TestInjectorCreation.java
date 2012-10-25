@@ -17,6 +17,7 @@ import warsjava.guice.modules.PlugInInstalationModule;
 import warsjava.guice.modules.TaskModelModule;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -134,5 +135,28 @@ public class TestInjectorCreation {
 			}
 		});
 		return list;
+	}
+	
+	@Test
+	public void testInjectionOfMembers(){
+		ModelEnvironment testEnvironment = new ModelEnvironment("testInjectionOfMembers");
+		Module allModel = Modules.combine(new ModelModule(),new TaskModelModule(), new EnvironmentModule(testEnvironment));
+		Injector injector = Guice.createInjector(Modules.combine(allModel));
+		assertNotNull(injector);
+		// Instance is created when injector is already build. Inject the members
+		ExternalSourceToBeInjected injectMePlease = new ExternalSourceToBeInjected();
+		
+		assertTrue(injectMePlease.testModelInjection());
+		
+	}
+	
+	public static class ExternalSourceToBeInjected {
+		@Inject
+		public ModelContract model;
+		
+		public boolean testModelInjection(){
+			if(model == null) throw new RuntimeException("model is null");
+			return model.getEnvironmentName().compareTo("testInjectionOfMembers")==0;
+		}
 	}
 }
