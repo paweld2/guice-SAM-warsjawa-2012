@@ -8,11 +8,13 @@ import warsjava.guice.contract.ModelContract;
 import warsjava.guice.domain.AdminUser;
 import warsjava.guice.domain.Article;
 import warsjava.guice.domain.Comment;
+import warsjava.guice.domain.Task;
 import warsjava.guice.implementations.ExternalLibApiImplementation;
 import warsjava.guice.implementations.LoggerLevel1;
 import warsjava.guice.implementations.LoggerLevel2;
 import warsjava.guice.implementations.ModelWarsjava;
 import warsjava.guice.implementations.SimpleLogger;
+import warsjava.guice.implementations.TaskProvider;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -27,31 +29,32 @@ public class ModelModule extends AbstractModule {
 
 		bind(LoggingContract.class).annotatedWith(Names.named("level1")).to(LoggerLevel1.class);
 		bind(LoggingContract.class).annotatedWith(Names.named("level2")).to(LoggerLevel2.class);
-		
+
 		bind(ModelContract.class).to(ModelWarsjava.class).in(Singleton.class);
-		
+
 		bind(LoggingContract.class).annotatedWith(Names.named("modelLogger")).toInstance(ModelWarsjava.modelInternalLogger);
-		
+
 		bind(AdminUser.class).in(Singleton.class);
-		
+
 		try {
 			bind(ExternalLibApi.class).toConstructor(ExternalLibApiImplementation.class.getConstructor());
 		} catch (Exception e) {
 			addError(e);
 		}
+
+		bind(Task.class).toProvider(new TaskProvider());
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
-	
+
 	@Provides
-	public Article getArticle(){
+	public Article getArticle() {
 		return new Article(modelCounter.addAndGet(1));
 	}
-	
+
 	@Provides
-	public Comment getComment(){
+	public Comment getComment() {
 		return new Comment(modelCounter.addAndGet(1));
 	}
-	
-	
+
 }
