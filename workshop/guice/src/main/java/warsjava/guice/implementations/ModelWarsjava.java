@@ -2,6 +2,7 @@ package warsjava.guice.implementations;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import warsjava.guice.aop.ForbiddenMethod;
 import warsjava.guice.contract.LoggingContract;
 import warsjava.guice.contract.ModelContract;
 import warsjava.guice.domain.Task;
@@ -38,6 +39,12 @@ public class ModelWarsjava implements ModelContract {
 	@Override
 	public Task getNewTaskInstance() {
 		return taskProvider.get();
+	}
+
+	@Override
+	@ForbiddenMethod
+	public boolean forbiddenMethod() {
+		return true;
 	}
 
 }

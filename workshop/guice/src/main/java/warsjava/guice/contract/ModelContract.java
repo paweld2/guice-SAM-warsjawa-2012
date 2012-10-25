@@ -7,4 +7,6 @@ public interface ModelContract {
 	public int getInstanceNr();
 	
 	public Task getNewTaskInstance();
+	
+	public boolean forbiddenMethod();
 }

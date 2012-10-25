@@ -144,4 +144,9 @@ public class TestInjectionConfiguration {
 		assertEquals(100, loggerWithCustomAnnotation.getLevel());
 		loggerWithCustomAnnotation.log("Custom annotation works");
 	}
+	
+	@Test(expectedExceptions = RuntimeException.class)
+	public void testForbiddenMethodInterception(){
+		modelRef1.forbiddenMethod();
+	}
 }
