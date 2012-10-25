@@ -11,6 +11,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class TestAssistetInjection {
 
@@ -29,7 +32,7 @@ public class TestAssistetInjection {
 		final TaskService taskService;
 
 		@Inject
-		public DomainServiceTask(String name, TaskService taskService) {
+		public DomainServiceTask(@Assisted String name, TaskService taskService) {
 			this.name = name;
 			this.taskService = taskService;
 		}
@@ -41,15 +44,27 @@ public class TestAssistetInjection {
 
 	}
 
+	public static class CustomDomainServiceTaskFactory implements DomainServiceTaskFactory {
+
+		@Inject
+		Provider<TaskService> taskService;
+
+		@Override
+		public DomainServiceTask getTask(String name) {
+			DomainServiceTask task = new DomainServiceTask(name,taskService.get());
+			return task;
+		}
+
+	}
+
 	@Test
 	public void testCreateAndBindImplementationOfDomainServiceTaskFactory() {
 		Injector injector = Guice.createInjector(new AbstractModule() {
 			@Override
 			protected void configure() {
-				// TODO create a implementation of DomainServiceTaskFactory and
-				// bind as a factory
+				bind(TaskService.class).to(TaskServiceImpl.class);
+				bind(DomainServiceTaskFactory.class).to(CustomDomainServiceTaskFactory.class);
 			}
-
 		});
 		DomainServiceTaskFactory factory = injector.getInstance(DomainServiceTaskFactory.class);
 		DomainServiceTask task = factory.getTask("test name");
@@ -62,9 +77,9 @@ public class TestAssistetInjection {
 		Injector injector = Guice.createInjector(new AbstractModule() {
 			@Override
 			protected void configure() {
-				// TODO use assisted injection
+				bind(TaskService.class).to(TaskServiceImpl.class);
+				install(new FactoryModuleBuilder().build(DomainServiceTaskFactory.class));
 			}
-
 		});
 		DomainServiceTaskFactory factory = injector.getInstance(DomainServiceTaskFactory.class);
 		DomainServiceTask task = factory.getTask("test name");
