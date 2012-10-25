@@ -15,6 +15,7 @@ import warsjava.guice.implementations.ModelWarsjava;
 import warsjava.guice.jit.CardProcessor;
 import warsjava.guice.jit.CardValidator;
 import warsjava.guice.modules.ModelModule;
+import warsjava.guice.modules.MyWorkshopCustomAnnotation;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -134,7 +135,7 @@ public class TestInjectionConfiguration {
 	}
 	
 	@Inject
-//	@MyWorkshopCustomAnnotation
+	@MyWorkshopCustomAnnotation
 	public LoggingContract loggerWithCustomAnnotation;
 	
 	@Test

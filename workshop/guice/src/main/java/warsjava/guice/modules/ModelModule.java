@@ -43,6 +43,19 @@ public class ModelModule extends AbstractModule {
 		}
 
 		bind(Task.class).toProvider(new TaskProvider());
+		
+		bind(LoggingContract.class).annotatedWith(MyWorkshopCustomAnnotation.class).toInstance(new LoggingContract() {
+			
+			@Override
+			public void log(String message) {
+				System.out.println("MyWorkshopCustomAnnotation:"+message);
+			}
+			
+			@Override
+			public int getLevel() {
+				return 100;
+			}
+		});
 	}
 
 	private final AtomicInteger modelCounter = new AtomicInteger(0);
